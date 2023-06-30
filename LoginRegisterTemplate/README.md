@@ -143,5 +143,5 @@ npm install @types/js-base64 --save-dev
 ###firebase
 keytool -list -v -alias androiddebugkey -keystore app/debug.keystore para obtener sha1
 
-seguir instrucciones instalacion
+follow instructions
 https://rnfirebase.io/
