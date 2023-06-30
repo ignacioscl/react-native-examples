@@ -48,11 +48,13 @@ This is one way to run your app — you can also run it directly from within And
 
 ## Step 3: Modifying your App
 
+```bash
 npm install @react-navigation/native
 npm install react-native-screens react-native-safe-area-context
-
+```
 Add the highlighted code to the body of MainActivity class:
 
+```java
 public class MainActivity extends ReactActivity {
   // ...
   @Override
@@ -61,27 +63,38 @@ public class MainActivity extends ReactActivity {
   }
   // ...
 }
+```
 
 and make sure to add the following import statement at the top of this file below your package statement:
 
+```java
 import android.os.Bundle;
+```
 
 
+```bash
 npm install @react-navigation/native-stack
 npm install @react-navigation/drawer
+```
 
-install reanimated
+##### install reanimated
 https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/
 
+```bash
 npm install react-native-gesture-handler
-#must add in the first line import 'react-native-gesture-handler'; 
+```
+
+must add in the first line `import 'react-native-gesture-handler'; `
+
+```bash
 npm install react-native-keyboard-aware-scroll-view
+```
 
 Android Support
 First, Android natively has this feature, you can easily enable it by setting windowSoftInputMode in AndroidManifest.xml
 
 ----------------------------------
-Para Android:
+##Para Android:
 
 Abre el archivo android/app/src/main/res/values/styles.xml.
 Busca o agrega la siguiente línea:
@@ -89,7 +102,9 @@ xml
 Copy code
 <item name="android:statusBarColor">@color/status_bar_color</item>
 Reemplaza @color/status_bar_color con el color que desees utilizar, por ejemplo: #0000FF para azul.
-Para iOS:
+
+
+##Para iOS:
 
 Abre el archivo ios/YourProjectName/Info.plist.
 Busca o agrega la siguiente línea:
@@ -107,16 +122,22 @@ Reemplaza #0000FF con el color que desees utilizar.
 
 
 
-push messaging
+#push messaging
+```bash
 npm install --save @react-native-firebase/app
 npm i @react-native-firebase/messaging
+```
+
 https://rnfirebase.io/messaging/usage
 https://rnfirebase.io/messaging/usage/ios-setup
 https://rnfirebase.io/messaging/server-integration
+
+```bash
 npm install base-64
 npm install @types/js-base64 --save-dev
+```
 
-firebase
+###firebase
 keytool -list -v -alias androiddebugkey -keystore app/debug.keystore para obtener sha1
 
 seguir instrucciones instalacion
