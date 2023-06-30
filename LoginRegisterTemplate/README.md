@@ -90,9 +90,12 @@ must add in the first line `import 'react-native-gesture-handler'; `
 npm install react-native-keyboard-aware-scroll-view
 ```
 
-Android Support
-First, Android natively has this feature, you can easily enable it by setting windowSoftInputMode in AndroidManifest.xml
+###### Android SupportAndroid Support
+First, Android natively has this feature, you can easily enable it by setting windowSoftInputMode in `AndroidManifest.xml`
 
+```bash
+android:windowSoftInputMode="adjustPan"
+```
 ----------------------------------
 ##Para Android:
 
