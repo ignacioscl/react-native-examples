@@ -64,3 +64,9 @@ yarn-error.log
 
 # testing
 /coverage
+
+# Ignorar el archivo google-services.json
+google-services.json
+
+# Ignorar el archivo GoogleService-Info.plist
+GoogleService-Info.plist
