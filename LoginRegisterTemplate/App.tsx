@@ -9,6 +9,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { requestPermission } from './src/components/PushNotifications';
 import messaging from '@react-native-firebase/messaging';
+import SplashScreen from "react-native-splash-screen";
+
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 
@@ -18,6 +20,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(/*{name:'ignacio'}*/);
   useEffect(() => {
+    SplashScreen.hide();
     requestPermission();
     messaging()
       .getToken()
