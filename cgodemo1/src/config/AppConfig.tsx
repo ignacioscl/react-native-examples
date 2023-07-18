@@ -5,7 +5,7 @@ const AppConfigProd = {
   BACKEND_URL: 'https://localhost'
 };
 const AppConfigDesa = {
-    BACKEND_URL: 'http://192.168.0.65:5000'
+    BACKEND_URL: 'http://192.168.0.8:5000'
   };
 const AppConfig = {
     conf:(AMBIENTE === 1 ? AppConfigDesa : AppConfigProd)

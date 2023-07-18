@@ -111,7 +111,7 @@ Reemplaza @color/status_bar_color con el color que desees utilizar, por ejemplo:
 
 Abre el archivo ios/YourProjectName/Info.plist.
 Busca o agrega la siguiente línea:
-xml
+> xml
 Copy code
 <key>UIStatusBarStyle</key>
 <string>UIStatusBarStyleLightContent</string>

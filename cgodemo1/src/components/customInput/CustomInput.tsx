@@ -3,6 +3,7 @@ import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {Controller} from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight, faUser } from '@fortawesome/free-solid-svg-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface CustomInputProps {
   control: any;
@@ -32,6 +33,7 @@ const CustomInput = ({
       rules={rules}
       render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
         <>
+        <TouchableOpacity onPress={() => {}}>
         <View
             style={[
               styles.searchSection,
@@ -53,7 +55,7 @@ const CustomInput = ({
               {...others}
             />
           </View>
-
+          </TouchableOpacity>
           {error && (
             <Text style={{color: 'red', alignSelf: 'stretch'}}>{error.message || 'Error'}</Text>
           )}

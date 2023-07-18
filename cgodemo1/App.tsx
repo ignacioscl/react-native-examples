@@ -1,6 +1,6 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity,TouchableHighlight , StyleSheet,Image  } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity,TouchableHighlight , StyleSheet,StatusBar  } from 'react-native';
 import { styles } from './styles/styles';
 import LoginScreen from './src/screens/Login/LoginScreen';
 import RegisterScreen from './src/screens/Register/RegisterScreen';
@@ -10,10 +10,11 @@ import SplashScreen from './src/screens/Splash';
 import AuthContext, {AuthProvider} from './src/context/AuthContext'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider,SafeAreaView } from 'react-native-safe-area-context';
 import LanguageProvider from './src/context/LanguajeContext';
 import HomeScreen from './src/screens/Home/HomeScreen';
 import AdditionalInfoRegisterScreen from './src/screens/Register/AdditionalInfoRegisterScreen';
+import { buttonBackgroundColor } from './styles/colors';
 const Stack = createNativeStackNavigator();
 
 
@@ -21,7 +22,7 @@ const Stack = createNativeStackNavigator();
 const StackApp = () => {
   const { state,authContext }  = useContext(AuthContext);
   console.log(state.isLoading)
-  return (<Stack.Navigator>
+  return (<SafeAreaView style={styles2.root}><Stack.Navigator>
     {state.isLoading ? (
       // We haven't finished checking for the token yet
       <Stack.Screen name="Splash" component={SplashScreen} options={{
@@ -52,28 +53,21 @@ const StackApp = () => {
       // User is signed in
       <Stack.Screen name="Home" component={(HomeScreen)} />
     ))}
-  </Stack.Navigator>)
+  </Stack.Navigator></SafeAreaView>)
 }
 const App = () => {
   
 
-  
-  const styles = StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: '#000000',
-    },
-  });
 
   return (
     <AuthProvider>
       <LanguageProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView style={styles.root}>
+      <SafeAreaProvider>
         <NavigationContainer>
           <StackApp/>
         </NavigationContainer>
-      </SafeAreaView>
+      </SafeAreaProvider>
       
       </GestureHandlerRootView>
       </LanguageProvider>
@@ -82,5 +76,11 @@ const App = () => {
   );
 };
 
-
+const styles2 = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: buttonBackgroundColor,
+    marginTop:StatusBar.currentHeight
+  },
+});
 export default App;

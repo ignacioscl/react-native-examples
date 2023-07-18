@@ -1,4 +1,4 @@
-import React, { useState ,useRef,useContext, useLayoutEffect } from 'react';
+import React, { useState ,useEffect,useContext, useLayoutEffect } from 'react';
 import { View, Text,Alert, TextInput, Button, TouchableOpacity,TouchableHighlight , StyleSheet,Image  } from 'react-native';
 import { styles } from '../../../styles/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -40,7 +40,9 @@ const [value, setValue] = useState('');
         );
       }
     }
-
+useEffect(() => {
+console.log(value)
+},[value])
     useLayoutEffect(() => {
       navigation.setOptions({
         headerTitle: () => (
@@ -73,14 +75,17 @@ const [value, setValue] = useState('');
                 value={value}
                 placeholder={t('labelEmail')}
                 control={control}
+                onPress={() => setVisible(true)}
                 rules={{required: t('messageRequired')}}
                 autoCapitalize="none"
                 editable={false} // optional
+                onFocus={() => setVisible(true)}
                 IconComponent={<FontAwesomeIcon icon={faCalendar} style={{color:iconColor}}/>}
                 
               />
               </TouchableOpacity>
               <DatePicker
+              date={new Date(value)}
                 isVisible={isVisible}
                 onConfirm={(date) => {
                   setVisible(false); // <- first thing
