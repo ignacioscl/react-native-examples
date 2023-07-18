@@ -54,3 +54,18 @@ npm install react-native-svg
 npm install @fortawesome/react-native-fontawesome
 npm install @fortawesome/free-solid-svg-icons
 npm install @fortawesome/fontawesome-svg-core
+
+npm install i18next @types/i18next
+npm install react-i18next @types/react-i18next
+npm install intl-pluralrules
+
+npm i @formatjs/intl-relativetimeformat  
+
+npm i @types/react-native-switch-selector
+npm install react-devtools --save
+npm install @react-native-async-storage/async-storage
+npm install @types/axios
+/*https://github.com/henninghall/react-native-date-picker#datepicker*/
+
+https://github.com/mmazzarolo/react-native-modal-datetime-picker
+npm i react-native-modal-datetime-picker @react-native-community/datetimepicker

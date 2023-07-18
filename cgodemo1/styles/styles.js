@@ -1,3 +1,5 @@
+import Colors, { buttonBackgroundColor } from "./colors";
+
 const { StyleSheet } = require("react-native");
 
 export const styles = StyleSheet.create({
@@ -6,10 +8,17 @@ export const styles = StyleSheet.create({
       justifyContent: 'center',
       paddingHorizontal: 16,
     },
+    containerScroll : {
+      flex: 1,
+      justifyContent: 'center'
+    },
+    containerPadding: {
+      paddingHorizontal: 16,
+    },
     button: {
       
       alignItems: 'center',
-      backgroundColor: '#008FCC',
+      backgroundColor: buttonBackgroundColor,
       borderRadius:7,
       padding: 10,
       shadowColor: '#000',
@@ -31,10 +40,14 @@ export const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: '#ccc',
       borderRadius: 10,
+      backgroundColor:"white"
     },
     forgotPasswordText: {
       textAlign: 'center',
       marginVertical: 8,
+      marginTop:20,
+      color: "#788eec",
+      fontWeight: "bold",
       textDecorationLine: 'underline',
     },
     registerText: {
@@ -67,7 +80,7 @@ export const styles = StyleSheet.create({
       width: 300, // Ajusta el ancho de la imagen según tus necesidades
      height:200,
       alignSelf: 'center',
-      marginTop:25,
+      marginTop:55,
       marginBottom: 16,
     },
   });

@@ -1,6 +1,9 @@
 
 import React, { ReactNode, useState } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity,TouchableHighlight , StyleSheet,Image  } from 'react-native';
+import AppConfig from '../config/AppConfig';
+import CustomAsyncStorage from '../utils/CustomAsyncStorage';
+import IUser from '../types/users/IUser';
+import userAxiosInstance from '../axios/UserAxios';
 
 interface AuthContextData {
     authContext:AuthContextType
@@ -10,6 +13,7 @@ export interface AppState {
     isLoading: boolean;
     isSignout: boolean;
     userToken: string | null;
+    user:IUser
   }
 interface AuthProviderProps {
     children: ReactNode;
@@ -19,6 +23,7 @@ export interface AuthContextType {
     signIn: (data: any) => void;
     signOut: () => void;
     signUp: (data: any) => void;
+    reloadUser: () => void;
   }
   
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -50,26 +55,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       fetchUserLogued();
     },[token])
 */
+    const saveToken = async (token:string | null) => {
+      await CustomAsyncStorage().saveToken(token);
+    }
+
+    const getToken = async () : Promise<string> => {
+      return await CustomAsyncStorage().getToken() || '';
+    }
     const [state, dispatch] = React.useReducer(
-        (prevState:any, action:any) => {
+        (prevState:any, action:{type:string,token?:string,user?:IUser}) => {
         switch (action.type) {
             case 'RESTORE_TOKEN':
             return {
                 ...prevState,
                 userToken: action.token,
                 isLoading: false,
+                user:action.user
             };
             case 'SIGN_IN':
             return {
                 ...prevState,
                 isSignout: false,
                 userToken: action.token,
+                user:action.user
             };
             case 'SIGN_OUT':
             return {
                 ...prevState,
                 isSignout: true,
                 userToken: null,
+                user:null,
+                isLoading: false,
+            };
+            case 'RELOAD':
+            return {
+                ...prevState,
+                user:action.user
             };
         }
         },
@@ -77,28 +98,64 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isLoading: true,
         isSignout: false,
         userToken: null,
+        user:null
         }
     );
     
     const authContext = React.useMemo<AuthContextType>(
         () => ({
-          signIn: async (data:any) => {
+          signIn: async (data:{username: null,password:null}) : Promise<{code:number,result:string}> => {
             // In a production app, we need to send some data (usually username, password) to server and get a token
             // We will also need to handle errors if sign in failed
             // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
             // In the example, we'll use a dummy token
-    
-            dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+
+            const response = await fetch(AppConfig.conf.BACKEND_URL + '/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email:data.username,password: data.password })
+            });
+      
+            if (response.ok) {
+              const  res  = await response.json();
+              console.log(res.data.token)
+              await saveToken(res.data.token)
+              userAxiosInstance.cleanInstanceToken();
+              const user = await userAxiosInstance.getUserLoguedFull()
+              dispatch({ type: 'SIGN_IN', token: res.data.token,user:user });
+            }
+            
+            return {code:1,result:""};
           },
-          signOut: () => dispatch({ type: 'SIGN_OUT' }),
+          signOut: async () => {
+            await saveToken(null);
+            userAxiosInstance.cleanInstanceToken();
+            dispatch({ type: 'SIGN_OUT' }
+          )},
           signUp: async (data:any) => {
             // In a production app, we need to send user data to server and get a token
             // We will also need to handle errors if sign up failed
             // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
             // In the example, we'll use a dummy token
-    
-            dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+            try {
+              const res = await userAxiosInstance.createUser(data);
+              await saveToken(res.token)
+              userAxiosInstance.cleanInstanceToken();
+              const user = await userAxiosInstance.getUserLoguedFull();
+              console.log(user)
+              dispatch({ type: 'SIGN_IN', token: res.token,user:user });
+            } catch (r:any) {
+              throw new Error(r);
+            }
+            
+            
           },
+          reloadUser: async () => {
+            const user = await userAxiosInstance.getUserLoguedFull()
+            dispatch({ type: 'RELOAD',user:user });
+          }
         }),
         []
       );
@@ -108,19 +165,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
       let userToken;
-
       try {
+        const token = await getToken() || '';
+        console.log("restore token:" + token)
+        const user = await userAxiosInstance.getUserLoguedFull()
+        console.log(user)
+        dispatch({ type: 'RESTORE_TOKEN', token: token ,user:user });
         // Restore token stored in `SecureStore` or any other encrypted storage
         // userToken = await SecureStore.getItemAsync('userToken');
       } catch (e) {
-        // Restoring token failed
+        authContext.signOut();
       }
 
       // After restoring token, we may need to validate it in production apps
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+      
     };
 
     bootstrapAsync();

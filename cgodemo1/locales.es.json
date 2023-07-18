@@ -1,0 +1,17 @@
+{
+    "titleAccessScreen": "Pantalla de acceso",
+    "buttonSignIn": "Acceder",
+    "forgotPassword": "¿Olvidó su contraseña?",
+    "labelEmail": "Correo electrónico",
+    "labelEmailRequired": "Correo electrónico requerido",
+    "labelPassRequired": "Contraseña requerida",
+    "labelCreateAccount": "Crear Cuenta",
+    "labelBackToLogin":"Volver",
+    "labelRegister":"Registrarse",
+    "labelYourName":"Tu Nombre",
+    "labelPassword":"Contraseña",
+    "labelRePassword":"Re-Contraseña",
+    "messageRequired":"Requerido",
+    "labelAccept":"Aceptar",
+    "titleCompleteRegistration":"Completar la Registración"
+}

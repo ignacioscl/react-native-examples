@@ -1,0 +1,17 @@
+{
+    "titleAccessScreen": "Pantalla de acceso",
+    "buttonSignIn": "Sign In",
+    "forgotPassword": "Forgot Password?",
+    "labelEmail": "E-Mail",
+    "labelEmailRequired": "E-Mail required",
+    "labelPassRequired": "Password required",
+    "labelCreateAccount": "Create an Account",
+    "labelBackToLogin":"Back to Login",
+    "labelRegister":"Register",
+    "labelYourName":"Your Name",
+    "labelPassword":"Password",
+    "labelRePassword":"Re-Password",
+    "messageRequired":"Required",
+    "labelAccept":"Accept",
+    "titleCompleteRegistrarion":"Complete Registration"
+}

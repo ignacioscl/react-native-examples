@@ -1,3 +1,4 @@
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, Button, TouchableOpacity,TouchableHighlight , StyleSheet,Image  } from 'react-native';
 import { styles } from './styles/styles';
@@ -9,31 +10,17 @@ import SplashScreen from './src/screens/Splash';
 import AuthContext, {AuthProvider} from './src/context/AuthContext'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import LanguageProvider from './src/context/LanguajeContext';
+import HomeScreen from './src/screens/Home/HomeScreen';
+import AdditionalInfoRegisterScreen from './src/screens/Register/AdditionalInfoRegisterScreen';
 const Stack = createNativeStackNavigator();
 
-const AccessMainScreen = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  return (<View style={styles.container}>
-      <TouchableOpacity onPress={() => setIsLogin(!isLogin)} style={styles.createAccountButton}>
-        <Text style={styles.toggleButtonText}>{isLogin ? <Text>Create an Account<FontAwesomeIcon icon={faChevronRight} style={styles.toggleButtonText}/></Text>: 'Login'}</Text>
-      </TouchableOpacity>
-      {isLogin ? <LoginScreen /> : <RegisterScreen />}
 
-      
-    </View>)
-}
-function HomeScreen() {
-  //const { signOut } = React.useContext(AuthContext);
 
-  return (
-    <View>
-      <Text>Signed in!</Text>
-      <Button title="Sign out" onPress={() => {}/*signOut*/} />
-    </View>
-  );
-}
 const StackApp = () => {
   const { state,authContext }  = useContext(AuthContext);
+  console.log(state.isLoading)
   return (<Stack.Navigator>
     {state.isLoading ? (
       // We haven't finished checking for the token yet
@@ -42,9 +29,9 @@ const StackApp = () => {
       }}/>
     ) : state.userToken == null ? (
       // No token found, user isn't signed in
-      <Stack.Screen
+      <><Stack.Screen
         name="SignIn"
-        component={AccessMainScreen}
+        component={LoginScreen}
         options={{
           title: 'Sign in',
           headerShown: false, // Ocultar el AppTop
@@ -52,23 +39,44 @@ const StackApp = () => {
           animationTypeForReplace: state.isSignout ? 'pop' : 'push',
         }}
       />
-    ) : (
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{
+          title: 'Sign Up',
+          headerShown: false, // Ocultar el AppTop
+        }}
+      />
+      </>
+    ) : (state.user.age<18 ? (<><Stack.Screen name="AdditionalInfoRegisterScreen" component={(AdditionalInfoRegisterScreen)} /></>): (
       // User is signed in
       <Stack.Screen name="Home" component={(HomeScreen)} />
-    )}
+    ))}
   </Stack.Navigator>)
 }
 const App = () => {
   
 
   
-  
+  const styles = StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: '#000000',
+    },
+  });
 
   return (
     <AuthProvider>
-      <NavigationContainer>
-        <StackApp></StackApp>
-      </NavigationContainer>
+      <LanguageProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaView style={styles.root}>
+        <NavigationContainer>
+          <StackApp/>
+        </NavigationContainer>
+      </SafeAreaView>
+      
+      </GestureHandlerRootView>
+      </LanguageProvider>
     </AuthProvider>
     
   );
