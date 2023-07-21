@@ -17,13 +17,19 @@ interface CustomInputProps {
   
 const CustomButton = ({onPress,touchableStyle,viewStyle,textStyle,label,icon,...others}:CustomInputProps) => {
     return (
-        <TouchableHighlight onPress={onPress} style={touchableStyle ? touchableStyle : {borderRadius:7,marginTop:10}} {...others}>
-            <View style={viewStyle ? viewStyle : [styles.button, { flexDirection: 'row', justifyContent: 'center' }]}>
+        <TouchableHighlight onPress={onPress} style={touchableStyle ? touchableStyle : {borderRadius:7,marginTop:20}} {...others}>
+            <View style={[styles.button, { flexDirection: 'row', justifyContent: 'center' },viewStyle]}>
                 {icon}
-                <Text style={textStyle ? textStyle : icon ? { color: 'white',marginLeft:5 } : { color: 'white'}}>{label}</Text>
+                <Text style={textStyle ? textStyle : icon ? [localSyles.textButton,{ marginLeft:5 }] : localSyles.textButton}>{label}</Text>
             </View>
         </TouchableHighlight>
     )
 }
 
+const localSyles = StyleSheet.create({
+    textButton: {
+        color: 'white',
+        fontSize:16
+    }
+});
 export default CustomButton;

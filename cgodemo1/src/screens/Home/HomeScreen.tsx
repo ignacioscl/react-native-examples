@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity,TouchableHighlight , StyleSheet,Image  } from 'react-native';
+import { View, Text, Button  } from 'react-native';
 import { LanguageContext } from '../../context/LanguajeContext';
 import AuthContext from '../../context/AuthContext';
-
 
 
 const HomeScreen = ({navigation}:any) => {

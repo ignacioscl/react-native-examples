@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {View, Text, TextInput, StyleSheet,Platform } from 'react-native';
 import {Controller} from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronRight, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -10,40 +10,20 @@ interface CustomInputProps {
   name: string;
   rules?: any;
   placeholder?: string;
-  label?:string;
-  labelStyles?:any;
   secureTextEntry?: boolean;
-  IconComponent?: React.ReactNode;
+  iconComponent?: React.ReactNode;
   onChangeValue?: (value: string) => void;
   [key: string]: any; // Propiedades adicionales
 }
 
-const CustomInput = ({
-  control,
-  name,
-  rules = {},
-  placeholder,
-  secureTextEntry,
-  IconComponent,
-  onChangeValue,
-  labelStyles,
-  label,
-  ...others
-}:CustomInputProps) => {
+const ViewMain = ({error,iconComponent,value,onChange,onChangeValue,onBlur,placeholder,secureTextEntry,...others}:any) => {
   return (
-    <Controller
-      control={control}
-      name={name}
-      rules={rules}
-      render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
-        <>
-        {label && <Text style={labelStyles ? labelStyles : styles.label}>{label}</Text>}
-        <View
+    <View
             style={[
               styles.searchSection,
-              {borderColor: error ? 'red' : '#e8e8e8'},label ? {marginTop:2} : {marginTop:12}
+              {borderColor: error ? 'red' : '#e8e8e8'},
             ]}>
-              {IconComponent && <View style={{borderRightColor:"#EDEDED",borderRightWidth:1,paddingRight:9,height:35,justifyContent:"center"}}>{IconComponent}</View>}
+              {iconComponent && <View style={{borderRightColor:"#EDEDED",borderRightWidth:1,paddingRight:9,height:35,justifyContent:"center"}}>{iconComponent}</View>}
             <TextInput
               value={value}
               onChangeText={(text) => {
@@ -54,12 +34,40 @@ const CustomInput = ({
               }}
               onBlur={onBlur}
               placeholder={placeholder}
-              style={[styles.input,!IconComponent ? {paddingLeft:0} : {}]}
+              style={[styles.input,iconComponent ? {paddingLeft:0} : {}]}
               secureTextEntry={secureTextEntry}
               {...others}
             />
           </View>
-          
+  );
+}
+const CustomInput = ({
+  control,
+  name,
+  rules = {},
+  placeholder,
+  secureTextEntry,
+  iconComponent,
+  onChangeValue,
+  ...others
+}:CustomInputProps) => {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      rules={rules}
+      render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+        <>
+          {Platform.OS == 'ios' &&
+            <TouchableOpacity onPress={() => {}}>
+              <ViewMain error={error} iconComponent={iconComponent} value={value} onChange={onChange} onChangeValue={onChangeValue} 
+                  onBlur={onBlur} placeholder={placeholder} secureTextEntry={secureTextEntry} {...others}/>
+            </TouchableOpacity>
+          }
+          {Platform.OS != 'ios' &&
+              <ViewMain error={error} iconComponent={iconComponent} value={value} onChange={onChange} onChangeValue={onChangeValue} 
+                  onBlur={onBlur} placeholder={placeholder} secureTextEntry={secureTextEntry} {...others}/>
+          }
           {error && (
             <Text style={{color: 'red', alignSelf: 'stretch'}}>{error.message || 'Error'}</Text>
           )}
@@ -86,8 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
 
     paddingHorizontal: 10,
-    paddingVertical:2,
-    marginTop: 5,
+    marginVertical: 5,
 },
 searchIcon: {
     padding: 10,
@@ -101,14 +108,7 @@ input: {
     paddingLeft: 10,
     backgroundColor: '#fff',
     color: '#424242',
-    fontSize:16
 },
-label: {
-  marginTop:10,
-  marginBottom:0,
-  marginLeft:3,
-  fontWeight:"500",
-fontSize:16}
 });
 
-export default CustomInput;
+

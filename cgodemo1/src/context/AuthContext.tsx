@@ -20,7 +20,7 @@ interface AuthProviderProps {
   }
 const AuthContext = React.createContext<AuthContextData>({} as any);
 export interface AuthContextType {
-    signIn: (data: any) => void;
+    signIn: (data: any) => Promise<{code:number,result:string}>;
     signOut: () => void;
     signUp: (data: any) => void;
     reloadUser: () => void;
@@ -110,22 +110,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
             // In the example, we'll use a dummy token
 
-            const response = await fetch(AppConfig.conf.BACKEND_URL + '/login', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ email:data.username,password: data.password })
-            });
-      
-            if (response.ok) {
-              const  res  = await response.json();
-              console.log(res.data.token)
-              await saveToken(res.data.token)
-              userAxiosInstance.cleanInstanceToken();
-              const user = await userAxiosInstance.getUserLoguedFull()
-              dispatch({ type: 'SIGN_IN', token: res.data.token,user:user });
+            try {
+                const response = await fetch(AppConfig.conf.BACKEND_URL + '/login', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ email:data.username,password: data.password })
+                });
+
+                if (response.ok) {
+                  
+                  const  res  = await response.json();
+                  if (res.data.fail) {
+                    return {code:-1,result:res.data.fail};
+                  }
+                  await saveToken(res.data.token)
+                  userAxiosInstance.cleanInstanceToken();
+                  const user = await userAxiosInstance.getUserLoguedFull()
+                  dispatch({ type: 'SIGN_IN', token: res.data.token,user:user });
+                }
+            } catch (e) {
+              throw e;
             }
+            
             
             return {code:1,result:""};
           },
@@ -168,9 +176,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         const token = await getToken() || '';
         console.log("restore token:" + token)
-        const user = await userAxiosInstance.getUserLoguedFull()
-        console.log(user)
-        dispatch({ type: 'RESTORE_TOKEN', token: token ,user:user });
+        if (token && token != '') {
+          const user = await userAxiosInstance.getUserLoguedFull()
+          console.log(user)
+          dispatch({ type: 'RESTORE_TOKEN', token: token ,user:user });
+        } else {
+          authContext.signOut();
+        }
+        
         // Restore token stored in `SecureStore` or any other encrypted storage
         // userToken = await SecureStore.getItemAsync('userToken');
       } catch (e) {

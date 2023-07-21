@@ -13,5 +13,11 @@
     "labelRePassword":"Re-Contraseña",
     "messageRequired":"Requerido",
     "labelAccept":"Aceptar",
-    "titleCompleteRegistration":"Completar la Registración"
+    "titleCompleteRegistration":"Completar la Registración",
+    "labelBirthDate":"Fecha en que naciste",
+    "labelAge":"Tú Edad",
+    "labelGender":"¿Cuál es tu género?",
+    "labelSexPreferences":"Quieres conocer",
+    "titleTerms":"Terminos y condiciones",
+    "textTerms":"Tienes que aceptar los terminos y condiciones, y nuestras políticas de privacidad para continuar"
 }

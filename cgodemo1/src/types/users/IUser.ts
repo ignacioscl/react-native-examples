@@ -28,6 +28,7 @@ export default interface IUser {
     age:number;
     googlePicture?:string;
     birthDate?: Date;
+    ageInput?: number;
     accept: 1 | 0;
     genero?: 1|2|3;//1=M,2=F,3=indefinido
     sexPreferencias?:1|2|3;//1=hetero,2=homo,3=bi

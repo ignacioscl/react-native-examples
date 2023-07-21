@@ -15,6 +15,7 @@ import LanguageProvider from './src/context/LanguajeContext';
 import HomeScreen from './src/screens/Home/HomeScreen';
 import AdditionalInfoRegisterScreen from './src/screens/Register/AdditionalInfoRegisterScreen';
 import { buttonBackgroundColor } from './styles/colors';
+import MainScreen from './src/screens/Main/MainScreen';
 const Stack = createNativeStackNavigator();
 
 
@@ -51,7 +52,7 @@ const StackApp = () => {
       </>
     ) : (state.user.age<18 ? (<><Stack.Screen name="AdditionalInfoRegisterScreen" component={(AdditionalInfoRegisterScreen)} /></>): (
       // User is signed in
-      <Stack.Screen name="Home" component={(HomeScreen)} />
+      <Stack.Screen name="Main" component={(MainScreen)}  options={{headerShown: false}}/>
     ))}
   </Stack.Navigator></SafeAreaView>)
 }
@@ -79,8 +80,8 @@ const App = () => {
 const styles2 = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: buttonBackgroundColor,
-    marginTop:StatusBar.currentHeight
+    backgroundColor: buttonBackgroundColor/*,
+    marginTop:StatusBar.currentHeight*/
   },
 });
 export default App;

@@ -25,13 +25,14 @@ export const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0,
     shadowRadius: 7,
-    elevation: 5,
+    elevation: 5
     },
     title: {
       fontSize: 24,
       fontWeight: 'bold',
       marginBottom: 16,
       textAlign: 'center',
+      color: '#051C60',
     },
     input: {
       height: 40,
@@ -84,3 +85,15 @@ export const styles = StyleSheet.create({
       marginBottom: 16,
     },
   });
+
+  
+export const stylesText = StyleSheet.create({
+
+  text: {
+    color: 'gray',
+    marginVertical: 10,
+  },
+  link: {
+    color: '#FDB075',
+  },
+});

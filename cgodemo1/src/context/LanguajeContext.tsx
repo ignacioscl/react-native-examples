@@ -9,6 +9,7 @@ import 'intl-pluralrules';
 interface LangContextData {
     t:any
     changeLanguage:Function
+    state:{language:'es' | 'en'}
 }
 
 i18n.use(initReactI18next).init({
@@ -24,7 +25,7 @@ i18n.use(initReactI18next).init({
     },
   });
 // Crear el contexto
-export const LanguageContext = createContext<LangContextData>({t:null,changeLanguage:() => {}});
+export const LanguageContext = createContext<LangContextData>({t:null,changeLanguage:() => {},state:{language:'es'}});
 
 // Definir el estado inicial
 const initialState = {
@@ -52,7 +53,7 @@ const LanguageProvider = ({ children }:any) => {
     i18n.changeLanguage(newLanguage);
   };
 
-  const contextValue = useMemo(() => ({ t, changeLanguage }), [
+  const contextValue = useMemo(() => ({ t, changeLanguage,state }), [
     state
   ]);
 

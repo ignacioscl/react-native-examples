@@ -1,5 +1,5 @@
 {
-    "titleAccessScreen": "Pantalla de acceso",
+    "titleAccessScreen": "Sign In",
     "buttonSignIn": "Sign In",
     "forgotPassword": "Forgot Password?",
     "labelEmail": "E-Mail",
@@ -13,5 +13,11 @@
     "labelRePassword":"Re-Password",
     "messageRequired":"Required",
     "labelAccept":"Accept",
-    "titleCompleteRegistrarion":"Complete Registration"
+    "titleCompleteRegistrarion":"Complete Registration",
+    "labelBirthDate":"Birth Date",
+    "labelAge":"Your age",
+    "labelGender":"¿Cuál es tu género?",
+    "labelSexPreferences":"You want to meet",
+    "titleTerms":"Terms of use",
+    "textTerms":"Tienes que aceptar los terminos y condiciones, y nuestras políticas de privacidad para continuar"
 }
