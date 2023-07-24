@@ -71,13 +71,22 @@ https://github.com/mmazzarolo/react-native-modal-datetime-picker
 npm i react-native-modal-datetime-picker @react-native-community/datetimepicker
 
 
+
+este componente no funciona en ios
 npm install @react-native-picker/picker --save
+este componente funciona en ios
+https://github.com/AdelRedaa97/react-native-select-dropdown
+la otra alternativa es pero no esta instalada en el proy
+https://github.com/siemiatj/react-native-modal-dropdown o https://hossein-zare.github.io/react-native-dropdown-picker-website/docs
+https://github.com/hoaphantn7604/react-native-element-dropdown#readme
+
+
 
 npm install react-native-elements
 npm install @rneui/themed @rneui/base
 npm install --save react-native-vector-icons
 https://github.com/oblador/react-native-vector-icons#ios
-
+https://www.youtube.com/watch?v=303rGAVcCA4
 #ICONS
 Option: With Gradle (recommended)
 This method has the advantage of fonts being copied from this module at build time so that the fonts and JS are always in sync, making upgrades painless.

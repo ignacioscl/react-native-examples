@@ -1,4 +1,4 @@
-import Colors, { buttonBackgroundColor } from "./colors";
+import Colors, { buttonBackgroundColor, inputIconBorderRightColor } from "./colors";
 
 const { StyleSheet } = require("react-native");
 
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
       marginVertical: 8,
       paddingHorizontal: 10,
       borderWidth: 1,
-      borderColor: '#ccc',
+      borderColor: inputIconBorderRightColor,
       borderRadius: 10,
       backgroundColor:"white"
     },

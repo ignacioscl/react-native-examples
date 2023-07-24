@@ -21,6 +21,9 @@ import TermsAndConditions from '../../components/termsAndConditions/TermsAndCond
 import IBasicItem from '../../types/genericData/IBasicItem';
 import { genderOptions, sexualPreferencesOptions } from '../../utils/SelectOptions';
 import LinkToTermsAndConditions from '../../components/termsAndConditions/LinkToTermsAndConditions';
+import { Platform } from 'react-native';
+import CustomSelectDropdownPicker from '../../components/picker/CustomSelectDropdownPicker';
+import CustomSelectElementDropdownMulti from '../../components/picker/CustomSelectElementDropdownMulti';
 
 interface LocalIUser extends IUser {
   updateFields:string;
@@ -94,7 +97,7 @@ const AdditionalInfoRegisterScreen = ({navigation}:any) => {
             <View style={styles.containerPadding}>
               <Image source={require('../../../assets/logo2.png')} style={localStyles.logo} resizeMode="contain" />
         
-              <CustomPicker 
+              {Platform.OS === 'android' && <CustomPicker 
                   emptyText="Seleccionar" 
                   rules={{required: t('messageRequired')}} 
                   items={ageOptions} label={t('labelAge')} 
@@ -103,8 +106,8 @@ const AdditionalInfoRegisterScreen = ({navigation}:any) => {
                   IconComponent={<FontAwesomeIcon 
                     icon={faEdit} 
                   style={{color:iconColor}}/>}/>
-
-              <CustomPicker 
+              }
+              {Platform.OS === 'android' && <CustomPicker 
                   emptyText="Seleccionar" 
                   rules={{required: t('messageRequired')}} 
                   items={genderList as IBasicItem[]} 
@@ -114,8 +117,8 @@ const AdditionalInfoRegisterScreen = ({navigation}:any) => {
                   IconComponent={<FontAwesomeIcon 
                   icon={faEdit} 
                   style={{color:iconColor}}/>}/>
-
-              <CustomPicker 
+              }
+              {Platform.OS === 'android' && <CustomPicker 
                   emptyText="Seleccionar" 
                   rules={{required: t('messageRequired')}} 
                   items={sexPrefList as IBasicItem[]} 
@@ -125,7 +128,40 @@ const AdditionalInfoRegisterScreen = ({navigation}:any) => {
                   IconComponent={<FontAwesomeIcon 
                   icon={faEdit} 
                   style={{color:iconColor}}/>}/>
+              }
 
+              <CustomInput
+                secureTextEntry={false}
+                name="username"
+                label={t('labelEmail')}
+                placeholder={t('labelEmail')}
+                control={control}
+                rules={{required: t('labelEmailRequired')}}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                IconComponent={<FontAwesomeIcon icon={faUser} style={{color:iconColor}}/>}
+                
+              />
+              {/*{Platform.OS === 'ios' &&  <CustomSelectDropdownPicker emptyText="Seleccionar" 
+                  rules={{required: t('messageRequired')}} 
+                  items={sexPrefList as IBasicItem[]} 
+                  label={t('labelSexPreferences')} 
+                  control={control} 
+                  name="sexPreferencias" 
+                  IconComponent={<FontAwesomeIcon 
+                  icon={faEdit} 
+                  style={{color:iconColor}}/>}/>
+              }*/}
+              {Platform.OS === 'ios' && <CustomSelectElementDropdownMulti emptyText="Seleccionar" 
+                  rules={{required: t('messageRequired')}} 
+                  items={sexPrefList as IBasicItem[]} 
+                  label={t('labelSexPreferences')} 
+                  control={control} 
+                  name="sexPreferencias" 
+                  IconComponent={<FontAwesomeIcon 
+                  icon={faEdit} 
+                  style={{color:iconColor}}/>}/>
+              }
               {/*
               COMO DE FECHA
               <CustomButton viewStyle={localStyles.buttonGray} label='Prefiero ingresar mi edad' touchableStyle={localStyles.touchableStyle}  onPress={handleSubmit(onSubmit)} />
