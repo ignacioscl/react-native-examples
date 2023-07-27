@@ -22,7 +22,7 @@ const Stack = createNativeStackNavigator();
 
 const StackApp = () => {
   const { state,authContext }  = useContext(AuthContext);
-  console.log(state.isLoading)
+  console.log(state.isLoading,state.userToken)
   return (<SafeAreaView style={styles2.root}><Stack.Navigator>
     {state.isLoading ? (
       // We haven't finished checking for the token yet

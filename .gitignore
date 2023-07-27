@@ -21,6 +21,8 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 **/.xcode.env.local
+**/private_key.pepk
+**/keys
 /poackages/react-native/sdks/downloads/
 
 # Gradle
@@ -67,6 +69,9 @@ local.properties
 *.iml
 /packages/react-native/android/*
 !/packages/react-native/android/README.md
+release
+*.apk
+*.old*
 
 # Node
 node_modules

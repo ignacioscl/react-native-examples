@@ -22,7 +22,6 @@ import IBasicItem from '../../types/genericData/IBasicItem';
 import { genderOptions, sexualPreferencesOptions } from '../../utils/SelectOptions';
 import LinkToTermsAndConditions from '../../components/termsAndConditions/LinkToTermsAndConditions';
 import { Platform } from 'react-native';
-import CustomSelectDropdownPicker from '../../components/picker/CustomSelectDropdownPicker';
 import CustomSelectElementDropdownMulti from '../../components/picker/CustomSelectElementDropdownMulti';
 
 interface LocalIUser extends IUser {
@@ -53,6 +52,9 @@ const AdditionalInfoRegisterScreen = ({navigation}:any) => {
         return;
       } 
       try {
+        data.sexPreferencias = (data.sexPreferencias as any).id;
+        data.genero = (data.genero as any).id;
+
         data.updateFields="ageInput,genero,sexPreferencias"
         const res = await userAxiosInstance.update(data);
         authContext.reloadUser();
@@ -97,28 +99,45 @@ const AdditionalInfoRegisterScreen = ({navigation}:any) => {
             <View style={styles.containerPadding}>
               <Image source={require('../../../assets/logo2.png')} style={localStyles.logo} resizeMode="contain" />
         
-              {Platform.OS === 'android' && <CustomPicker 
+             
+              <CustomInput
+                secureTextEntry={false}
+                name="ageInput"
+                label={t('labelAge')}
+                placeholder={t('labelAge')}
+                control={control}
+                rules={{required: t('messageRequired'),
+                validate: {
+                  ageRange: (value:string) => {
+                    const age = parseInt(value);
+                    if (age < 18) {
+                      return t('messageValidAge');
+                    } else if (age > 80) {
+                      return t('messageValidAge2');
+                    }
+                    return true;
+                  }
+                },
+                pattern: {
+                  value: /^[0-9]{2}$/, // Expresión regular para validar que solo sean 2 dígitos numéricos
+                  message: '',
+                }}}
+                autoCapitalize="none"
+                keyboardType='numeric'
+                IconComponent={<FontAwesomeIcon icon={faEdit} style={{color:iconColor}}/>}
+              />
+              <CustomSelectElementDropdownMulti 
                   emptyText="Seleccionar" 
                   rules={{required: t('messageRequired')}} 
-                  items={ageOptions} label={t('labelAge')} 
-                  control={control} 
-                  name="ageInput" 
-                  IconComponent={<FontAwesomeIcon 
-                    icon={faEdit} 
-                  style={{color:iconColor}}/>}/>
-              }
-              {Platform.OS === 'android' && <CustomPicker 
-                  emptyText="Seleccionar" 
-                  rules={{required: t('messageRequired')}} 
-                  items={genderList as IBasicItem[]} 
+                  data={genderList as IBasicItem[]} 
                   label={t('labelGender')} 
                   control={control} 
                   name="genero" 
                   IconComponent={<FontAwesomeIcon 
                   icon={faEdit} 
                   style={{color:iconColor}}/>}/>
-              }
-              {Platform.OS === 'android' && <CustomPicker 
+
+              {/*Platform.OS === 'ios' && <CustomPicker 
                   emptyText="Seleccionar" 
                   rules={{required: t('messageRequired')}} 
                   items={sexPrefList as IBasicItem[]} 
@@ -128,20 +147,9 @@ const AdditionalInfoRegisterScreen = ({navigation}:any) => {
                   IconComponent={<FontAwesomeIcon 
                   icon={faEdit} 
                   style={{color:iconColor}}/>}/>
-              }
+                  */}
 
-              <CustomInput
-                secureTextEntry={false}
-                name="username"
-                label={t('labelEmail')}
-                placeholder={t('labelEmail')}
-                control={control}
-                rules={{required: t('labelEmailRequired')}}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                IconComponent={<FontAwesomeIcon icon={faUser} style={{color:iconColor}}/>}
-                
-              />
+              
               {/*{Platform.OS === 'ios' &&  <CustomSelectDropdownPicker emptyText="Seleccionar" 
                   rules={{required: t('messageRequired')}} 
                   items={sexPrefList as IBasicItem[]} 
@@ -152,16 +160,16 @@ const AdditionalInfoRegisterScreen = ({navigation}:any) => {
                   icon={faEdit} 
                   style={{color:iconColor}}/>}/>
               }*/}
-              {Platform.OS === 'ios' && <CustomSelectElementDropdownMulti emptyText="Seleccionar" 
+              <CustomSelectElementDropdownMulti placeholder="Seleccionar" 
                   rules={{required: t('messageRequired')}} 
-                  items={sexPrefList as IBasicItem[]} 
+                  data={sexPrefList as IBasicItem[]} 
                   label={t('labelSexPreferences')} 
                   control={control} 
                   name="sexPreferencias" 
                   IconComponent={<FontAwesomeIcon 
                   icon={faEdit} 
                   style={{color:iconColor}}/>}/>
-              }
+
               {/*
               COMO DE FECHA
               <CustomButton viewStyle={localStyles.buttonGray} label='Prefiero ingresar mi edad' touchableStyle={localStyles.touchableStyle}  onPress={handleSubmit(onSubmit)} />
