@@ -93,7 +93,7 @@ const LoginScreen = ({navigation}:any) => {
                 IconComponent={<FontAwesomeIcon icon={faUnlock} style={{color:iconColor}}/>}
               />
               {err && <Text style={{textAlign:'center',color:"red"}}>{err}</Text>}
-              <CustomButton label={t('buttonSignIn')} onPress={handleSubmit(onSubmit)} icon={<FontAwesomeIcon icon={faSignIn} style={{ color: "white" }} />}/>
+              <CustomButton label={t('buttonSignIn')} onPressSubmit={handleSubmit(onSubmit)} icon={<FontAwesomeIcon icon={faSignIn} style={{ color: "white" }} />}/>
               
               <TouchableOpacity onPress={handleForgotPassword}>
                 <Text style={styles.forgotPasswordText}>{t('forgotPassword')}</Text>

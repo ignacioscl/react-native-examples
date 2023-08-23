@@ -22,5 +22,6 @@
     "textTerms":"Tienes que aceptar los terminos y condiciones, y nuestras políticas de privacidad para continuar",
     "messageValidAge":"La edad debe estar entre 18 y 80 años.",
     "messageValidAge2":"Debe completar una edad válida.",
-    "messageOnlyTwoDigits":"Solo 2 dígitos numéricos admitidos."
+    "messageOnlyTwoDigits":"Solo 2 dígitos numéricos admitidos.",
+    "labelFindNearPeople":"Buscar Gente Cerca"
 }

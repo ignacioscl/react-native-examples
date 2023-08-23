@@ -1,5 +1,5 @@
 import React, { useState ,useEffect,useContext, useLayoutEffect } from 'react';
-import { View, Text,Alert, TextInput, Button, TouchableOpacity,TouchableHighlight , StyleSheet,Image  } from 'react-native';
+import { View, Text,Alert, TextInput, Button, TouchableOpacity, StyleSheet,Image  } from 'react-native';
 import { styles, stylesText } from '../../../styles/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCalendar, faChevronLeft, faEdit, faEnvelope, faLock, faRectangleList, faSignIn, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -13,15 +13,10 @@ import { iconColor } from '../../../styles/colors';
 import CustomButton from '../../components/CustomButton';
 import userAxiosInstance from '../../axios/UserAxios';
 import AuthContext from '../../context/AuthContext';
-import DatePicker from "react-native-modal-datetime-picker";
-import { fechaScreen } from '../../utils/GeneralUtils';
-import HrSeparator from '../../components/hr/HrSeparator';
-import CustomPicker from '../../components/picker/CustomPicker';
 import TermsAndConditions from '../../components/termsAndConditions/TermsAndConditions';
 import IBasicItem from '../../types/genericData/IBasicItem';
 import { genderOptions, sexualPreferencesOptions } from '../../utils/SelectOptions';
 import LinkToTermsAndConditions from '../../components/termsAndConditions/LinkToTermsAndConditions';
-import { Platform } from 'react-native';
 import CustomSelectElementDropdownMulti from '../../components/picker/CustomSelectElementDropdownMulti';
 
 interface LocalIUser extends IUser {
@@ -233,7 +228,7 @@ const AdditionalInfoRegisterScreen = ({navigation}:any) => {
               
               <TermsAndConditions containerStyle={{marginTop:7}} check={{isChecked, setChecked}}/>
               
-              <CustomButton viewStyle={{marginTop:0}} label={t('labelRegister')} onPress={handleSubmit(onSubmit)} icon={<FontAwesomeIcon icon={faSignIn} style={{ color: "white" }} />}/>
+              <CustomButton viewStyle={{marginTop:0}} label={t('labelRegister')} onPressSubmit={handleSubmit(onSubmit)} icon={<FontAwesomeIcon icon={faSignIn} style={{ color: "white" }} />}/>
               <LinkToTermsAndConditions/>
               {/*<TouchableOpacity>
                 <Text style={styles.loginText}>Login</Text>

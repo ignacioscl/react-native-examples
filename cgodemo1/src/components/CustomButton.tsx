@@ -6,7 +6,7 @@ import { faSignIn, faUser } from '@fortawesome/free-solid-svg-icons';
 import { iconColor } from '../../styles/colors';
 
 interface CustomInputProps {
-    onPress: (event:GestureResponderEvent) => void;
+    onPressSubmit: (event:GestureResponderEvent) => void;
     touchableStyle?: any;
     viewStyle?: any;
     textStyle?: any;
@@ -15,9 +15,9 @@ interface CustomInputProps {
     [key: string]: any; // Propiedades adicionales
   }
   
-const CustomButton = ({onPress,touchableStyle,viewStyle,textStyle,label,icon,...others}:CustomInputProps) => {
+const CustomButton = ({onPressSubmit,touchableStyle,viewStyle,textStyle,label,icon,...others}:CustomInputProps) => {
     return (
-        <TouchableHighlight onPress={onPress} style={touchableStyle ? touchableStyle : {borderRadius:7,marginTop:20}} {...others}>
+        <TouchableHighlight onPress={onPressSubmit} style={[{borderRadius:7,marginTop:20},touchableStyle]} {...others}>
             <View style={[styles.button, { flexDirection: 'row', justifyContent: 'center' },viewStyle]}>
                 {icon}
                 <Text style={textStyle ? textStyle : icon ? [localSyles.textButton,{ marginLeft:5 }] : localSyles.textButton}>{label}</Text>

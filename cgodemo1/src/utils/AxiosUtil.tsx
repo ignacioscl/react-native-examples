@@ -8,7 +8,7 @@ const getToken = async () : Promise<string | null> => {
     
     return token;
 }
-
+/*
 const getAxiosInstance = async () : Promise<any> => {
 
     let axiosInstance = null;
@@ -32,4 +32,4 @@ const getAxiosInstance = async () : Promise<any> => {
     }
     return null;
 }
-export default getAxiosInstance;
+export default getAxiosInstance;*/

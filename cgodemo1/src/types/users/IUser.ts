@@ -33,6 +33,7 @@ export default interface IUser {
     genero?: 1|2|3;//1=M,2=F,3=indefinido
     sexPreferencias?:1|2|3;//1=hetero,2=homo,3=bi
     photos?:IUserPhoto[];
+    distance?:number|null;
 }
 
 

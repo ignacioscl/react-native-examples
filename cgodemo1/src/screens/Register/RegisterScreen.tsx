@@ -1,5 +1,5 @@
 import React, { useState ,useRef,useContext } from 'react';
-import { View, Text,Alert, TextInput, Button, TouchableOpacity,TouchableHighlight , StyleSheet,Image  } from 'react-native';
+import { View, Text,Alert, TextInput, Button, TouchableOpacity,Image  } from 'react-native';
 import { styles } from '../../../styles/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faEnvelope, faLock, faSignIn, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -130,7 +130,7 @@ const RegisterScreen = ({navigation}:any) => {
                 onChangeValue={handleChange}
               />
 
-              <CustomButton label={t('labelRegister')} onPress={handleSubmit(onSubmit)} icon={<FontAwesomeIcon icon={faSignIn} style={{ color: "white" }} />}/>
+              <CustomButton label={t('labelRegister')} onPressSubmit={handleSubmit(onSubmit)} icon={<FontAwesomeIcon icon={faSignIn} style={{ color: "white" }} />}/>
               {/*<TouchableOpacity>
                 <Text style={styles.loginText}>Login</Text>
               </TouchableOpacity>*/}

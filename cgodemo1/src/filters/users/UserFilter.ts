@@ -8,14 +8,15 @@ class UserFilter implements Filter {
     isActive: -1|0|1 ;
     isOnline?: null|undefined|0|1;
     near?: null|undefined|0|1;
-    nearLat?:number;
-    nearLng?:number;
+    nearLat?:number|null;
+    nearLng?:number|null;
     username?: string;
     usernameLike?:string;
     rol?: 1|2;
     orderBy: string;
     currentPage?: number;
     pageSize?: number;
+    sexPreferences?:1|2|3;//1=H,2 M 3 Ind
     /**
      * si es null, undefined o false => remueve la info sensible
      * si es true, no remueve

@@ -126,7 +126,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     return {code:-1,result:res.data.fail};
                   }
                   await saveToken(res.data.token)
-                  userAxiosInstance.cleanInstanceToken();
+                  //userAxiosInstance.cleanInstanceToken();
                   const user = await userAxiosInstance.getUserLoguedFull()
                   dispatch({ type: 'SIGN_IN', token: res.data.token,user:user });
                 }
@@ -139,7 +139,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           },
           signOut: async () => {
             await saveToken(null);
-            userAxiosInstance.cleanInstanceToken();
+            //userAxiosInstance.cleanInstanceToken();
             dispatch({ type: 'SIGN_OUT' }
           )},
           signUp: async (data:any) => {
@@ -150,7 +150,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             try {
               const res = await userAxiosInstance.createUser(data);
               await saveToken(res.token)
-              userAxiosInstance.cleanInstanceToken();
+              //userAxiosInstance.cleanInstanceToken();
               const user = await userAxiosInstance.getUserLoguedFull();
               console.log(user)
               dispatch({ type: 'SIGN_IN', token: res.token,user:user });

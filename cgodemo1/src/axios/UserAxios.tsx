@@ -1,9 +1,9 @@
-import { pathImagesProfile } from "../config/AppConfig";
+import { AppSetting } from "../config/AppConfig";
 import UserFilter from "../filters/users/UserFilter";
 import UpdateFields from "../types/genericData/UpdateFields";
 import IResponsePaginator from "../types/response/IResponsePaginator";
 import IUser from "../types/users/IUser";
-import getAxiosInstance from "../utils/AxiosUtil";
+import axiosInstance from "../utils/AxiosInstance";
 import BackendResponse from "./BackendResponse";
 
 
@@ -37,15 +37,18 @@ class UserAxios {
         
     }*/
     public async getUserLoguedFull () {
-        const response : {data:{data: IUser}} = await ((await this.getAxios())).get("/api/user/getUserLoguedFull");
-        response.data.data.thumbnail = response.data.data.thumbnail != null ? pathImagesProfile + response.data.data.id + '/' + response.data.data.thumbnail : '/img/get/-1/-1/foto-perfil.jpg'
+        const resp = await axiosInstance.get("/api/user/getUserLoguedFull");
+        const response :  IUser = await (resp && resp && resp.data && resp.data.data ? resp.data.data : null);
 
-        return response.data.data;
+        //await this.getAxios()
+        //TODO: modificar por AppSetting.pathProfileImages.replace("{id}", response.data.data.id).replace("{image}", response.data.data.thumbnail);
+        response.thumbnail = response.thumbnail != null ? AppSetting.pathImagesProfile + response.id + '/' + response.thumbnail : '/img/get/-1/-1/foto-perfil.jpg'
+        console.log("response",response)
+        return response;
     }
     public async loginWithFacebook(token:string) {
         return new Promise<string>((resolve, reject) => {
-            this.getAxios().then (a => {
-                a.post("/login/facebook", {token:token})
+            axiosInstance.post("/login/facebook", {token:token})
               .then((data: BackendResponse<any> | any) => {
                   if (data.data.data.token) {
                     resolve(data.data.data.token);
@@ -60,13 +63,12 @@ class UserAxios {
                 reject(e.response.data.errorResponse.message);
               });
             })
-              
-          });
+       
     }
 
     public async loginWithGoogle(token:string) {
         return new Promise<string>(async (resolve, reject) => {
-            (await this.getAxios())
+            axiosInstance
               .post("/login/google", {token:token})
               .then((data: BackendResponse<any> | any) => {
                   if (data.data.data.token) {
@@ -85,7 +87,7 @@ class UserAxios {
     }
     public async createUser(user: IUser): Promise<any> {
         return new Promise<IUser>((resolve, reject) => {
-          this.getAxios().then(a => {a.post("/login/create", user)
+            axiosInstance.post("/login/create", user)
           .then((result: BackendResponse<IUser> | any) => {
             if (result.status !== this.statusOk) {
               console.log(result.result);
@@ -98,12 +100,12 @@ class UserAxios {
             reject(e.response.data.errorResponse.message);
           });})
             
-        });
+   
       }
     
     public async update(user: IUser & UpdateFields) : Promise<IUser[]> {
         try {
-            const result : BackendResponse<IUser> | any = await (await this.getAxios()).put("/api/user" ,user);
+            const result : BackendResponse<IUser> | any = await axiosInstance.put("/api/user" ,user);
 
             if (result.status != this.statusOk) {
                 throw new Error(result.errorResponse?.message);
@@ -116,7 +118,7 @@ class UserAxios {
     }
     public async fetch(filter : UserFilter) : Promise<IUser[]> {
         try {
-            const result : BackendResponse<IUser[]> | any = await this.axiosInstance.post("/api/user/fetch" ,filter);
+            const result : BackendResponse<IUser[]> | any = await axiosInstance.post("/api/user/fetch" ,filter);
 
             if (result.status != this.statusOk) {
                 console.log(result.result)
@@ -129,10 +131,11 @@ class UserAxios {
         
     }
     public async fetchPaginated(filter : UserFilter,page: number, pageSize: number) : Promise<IResponsePaginator<IUser[]>> {
+
         try {
             filter.currentPage  = page;
             filter.pageSize     = pageSize
-            const result : BackendResponse<IUser[]> | any = await this.axiosInstance.post("/api/user/fetch" ,filter);
+            const result : BackendResponse<IUser[]> | any = await axiosInstance.post("/api/user/fetch" ,filter);
 
             if (result.status != this.statusOk) {
                 console.log(result.result)
@@ -150,7 +153,7 @@ class UserAxios {
             if (id == null || id<1) {
                 throw new Error("Id incorrecto");
             }
-            await (await this.getAxios()).delete("/api/user/" + id);
+            await axiosInstance.delete("/api/user/" + id);
         
         } catch (e : any) {
             console.error(e)
@@ -160,7 +163,7 @@ class UserAxios {
 
     public async changePassword(user : IUser) : Promise<void> {
         try {
-            await (await this.getAxios()).put("/api/user/changePassword",user);
+            await axiosInstance.put("/api/user/changePassword",user);
         
             
         } catch (e : any) {
@@ -171,22 +174,13 @@ class UserAxios {
 
     public async deleteImage(id:number) : Promise<void> {
         try {
-            await (await this.getAxios()).delete('/api/user/image/' + id);
+            await axiosInstance.delete('/api/user/image/' + id);
 
         } catch (e : any) {
             throw new Error(e.response.data.errorResponse.message);
         }
       }
-    private async getAxios() {
-        if (!this.axiosInstance) {
-            this.axiosInstance = await getAxiosInstance();
-        }
-        return this.axiosInstance;
-    }
-
-    public cleanInstanceToken() {
-        this.axiosInstance = null;
-    }
+    
 }
 
 const userAxiosInstance = new UserAxios();

@@ -1,3 +1,4 @@
+import AppConfig, { AppSetting } from "../config/AppConfig";
 import IGenericData from "../types/genericData/IGenericData";
 
 export const fechaScreen = (date : Date | undefined) => {
@@ -116,3 +117,6 @@ export const parsePreferences = (t: IGenericData): IGenericData => {
   return parsedData;
 };
 
+export const getPathImage = (id:number,image:string) : string => {
+  return AppConfig.conf.BACKEND_URL + AppSetting.pathProfileImages.replace("{id}", id.toString()).replace("{image}", image);
+}
